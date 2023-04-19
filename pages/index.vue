@@ -1,3 +1,8 @@
+
 <template>
-    <v-card title="This is the title from index page."></v-card>
+    <v-card title="Hello" />
+    {{ data.body }}
 </template>
+<script setup>
+const { data } = await useAsyncData('recipes', () => queryContent('/recipes').findOne())
+</script>
