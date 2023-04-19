@@ -1,5 +1,6 @@
 <template>
   <div>
-    <NuxtWelcome />
+    <v-card title="This is title with vuetify"></v-card>
+
   </div>
 </template>
