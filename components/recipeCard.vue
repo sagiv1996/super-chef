@@ -26,13 +26,13 @@
             <div v-show="show">
                 <v-divider></v-divider>
                 <v-list>
-                    <v-list-item v-for="ingredient in recipe.ingredients">
+                    <!-- <v-list-item v-for="ingredient in recipe.ingredients">
                         <template v-slot:prepend>
                             <v-icon :icon="getIcon(ingredient.type)"></v-icon>
                         </template>
                         <v-list-item-title>{{ ingredient.name }}</v-list-item-title>
-                        <v-list-item-subtitle>{{ ingredient.quantity }}</v-list-item-subtitle>
-                    </v-list-item>
+                        <v-list-item-subtitle>{{ ingredient.quantity }}</v-list-item-subtitle> -->
+                    <!-- </v-list-item> -->
                 </v-list>
             </div>
         </v-expand-transition>
