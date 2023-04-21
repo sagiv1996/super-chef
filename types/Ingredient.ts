@@ -4,14 +4,16 @@ declare interface Ingredient {
   name: string;
   type: string;
   tags: string[];
+  bought: boolean
 }
 
 declare interface InsertIngredient {
   createdAt?: string;
   id?: number;
-  name?: string 
+  name?: string;
   type: string;
   tags?: string[];
+  bought?: boolean;
 }
 
 
@@ -21,4 +23,5 @@ declare interface UpdateIngredient {
   name?: string;
   type?: string;
   tags?: string[];
+  bought?: boolean;
 }
