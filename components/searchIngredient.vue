@@ -1,21 +1,32 @@
 <template>
-    <v-form @submit.prevent="handleSubmit"> <v-row>
-            <v-col cols="8"><v-combobox :items="ingredients" item-title="name" v-model:search="filter" variant="outlined"
-                    @update:search="refresh" :rules="[rules.required]" label="Add row to Shopping List" clearable
-                    :loading="pending" item-value="id" @change="handleChange" @keyup.enter="handleSubmit"
-                    v-model="ingredient">
+    <v-form @submit.prevent="handleSubmit">
+        <v-row>
+            <v-col cols="12" sm="9">
+                <v-combobox :items="ingredients" item-title="name" v-model:search="filter" variant="outlined"
+                    menu-icon="mdi-playlist-edit" @update:search="refresh" :rules="[rules.required]"
+                    label="Add row to Shopping List" clearable :loading="pending" item-value="id" @change="handleChange"
+                    @keyup.enter="handleSubmit" v-model="ingredient">
                     <template v-slot:item="{ props, item }">
                         <v-list-item v-bind="props" :title="item.raw.name" :subtitle="item.raw.type"
                             :prepend-icon="mapIcon[item.raw.type] || 'mdi-null'" />
-                    </template></v-combobox></v-col>
-            <v-col cols="3"> <v-text-field prepend-inner-icon="mdi-minus" label="Amount" variant="outlined"
+                    </template>
+                </v-combobox>
+            </v-col>
+            <v-col cols="9" sm="2">
+                <v-text-field prepend-inner-icon="mdi-minus" label="Amount" variant="outlined" clearable
                     :rules="[rules.bigThan0, rules.smallThan11, rules.required]" @click:append-inner="increment"
                     @click:prepend-inner="decrement" v-model.number="amount" append-inner-icon="mdi-plus">
-                </v-text-field></v-col> <v-col cols="1"><v-btn type="submit" block class="mt-2" large><v-icon
-                        icon>mdi-send-check-outline</v-icon></v-btn></v-col>
+                </v-text-field>
+            </v-col>
+            <v-col cols="3" sm="1">
+                <v-btn type="submit" variant="outlined" height="56">
+                    <v-icon>mdi-send-check-outline</v-icon>
+                </v-btn>
+            </v-col>
         </v-row>
     </v-form>
 </template>
+
 
 <script setup>
 
