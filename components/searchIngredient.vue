@@ -1,74 +1,79 @@
 <template>
-    <v-combobox @update:search="loadIngredients" :items="ingredients" item-title="name" no-filter :loading="loading"
-        clearable item-value="id" @change="handleChange" append-inner-icon="mdi-plus" v-model="ingredient"
-        :hide-no-data="false" @keyup.enter="insertIngredient" @click:append-inner="insertIngredient">
-        <template v-slot:no-data v-if="typeof ingredient === 'string' && ingredient.length > 2">
-            <v-list-item>
-                <v-list-item-title>
-                    No results matching "<strong>{{ ingredient }}</strong>". Press <kbd>enter</kbd> to create
-                    a new one
-                </v-list-item-title>
-            </v-list-item>
-        </template>
-        <template v-slot:item="{ props, item }">
-            <v-list-item v-bind="props" :title="item.raw.name" :subtitle="item.raw.type + getIconByType(item.raw.type)"
-                :prepend-icon="getIconByType(item.raw.type)" />
-        </template>
-    </v-combobox>
+    <v-form @submit.prevent="handleSubmit"> <v-row>
+            <v-col cols="8"><v-combobox :items="ingredients" item-title="name" v-model:search="filter" variant="outlined"
+                    @update:search="refresh" :rules="[rules.required]" label="Add row to Shopping List" clearable
+                    :loading="pending" item-value="id" @change="handleChange" @keyup.enter="handleSubmit"
+                    v-model="ingredient">
+                    <template v-slot:item="{ props, item }">
+                        <v-list-item v-bind="props" :title="item.raw.name" :subtitle="item.raw.type"
+                            :prepend-icon="mapIcon[item.raw.type] || 'mdi-null'" />
+                    </template></v-combobox></v-col>
+            <v-col cols="3"> <v-text-field prepend-inner-icon="mdi-minus" label="Amount" variant="outlined"
+                    :rules="[rules.bigThan0, rules.smallThan11, rules.required]" @click:append-inner="increment"
+                    @click:prepend-inner="decrement" v-model.number="amount" append-inner-icon="mdi-plus">
+                </v-text-field></v-col> <v-col cols="1"><v-btn type="submit" block class="mt-2" large><v-icon
+                        icon>mdi-send-check-outline</v-icon></v-btn></v-col>
+        </v-row>
+    </v-form>
 </template>
-<script setup lang="ts">
-const emit = defineEmits<{
-    (e: 'select', ingredient: Ingredient): void
-}>()
-const client = useSupabaseClient<Database>();
+
+<script setup>
+
+const emit = defineEmits(["change"])
 
 
-const ingredients = ref<Ingredient[]>([])
-const loading = ref<boolean>()
-const ingredient = ref<Ingredient | string>()
+const client = useSupabaseClient()
+const filter = ref()
+const ingredient = ref();
+const amount = ref(1);
 
-const handleChange = () => {
-    if (ingredient && typeof ingredient.value === 'object')
-        emit('select', ingredient.value)
+const decrement = () => {
+    if (amount.value > 1)
+        amount.value--
 }
-const insertIngredient = async () => {
-    const { data } = await client.from("Ingredient").insert({ name: ingredient.value }).select("*").single()
-    ingredient.value = data as Ingredient
-    handleChange()
-    ingredient.value = undefined
-    ingredients.value = []
+const increment = () => {
+    if (amount.value < 10)
+        amount.value++
 }
-
-const loadIngredients = async (str: string) => {
-    if (str.length < 3) return
-    loading.value = true
-    const { data } = await client.from('Ingredient').select("*").like('name', `%${str}%`)
-    ingredients.value = data as Ingredient[]
-    loading.value = false
+const rules = {
+    required: value => !!value || 'Required.',
+    bigThan0: value => value > 0 || 'Min value is 1',
+    smallThan11: value => value < 11 || 'Max value is 10'
 }
 
-
-
-
-const getIconByType = (type: string) => {
-    switch (type) {
-        case 'Baking':
-            return 'mdi-baguette'
-        case 'Meat':
-            return 'mdi-food-steak'
-        case 'Drinks':
-            return 'mdi-cup'
-        case 'Condiments':
-            return 'mdi-shaker'
-        case 'Produce':
-            return 'mdi-fruit-pineapple'
-        case 'Dairy':
-            return 'mdi-cheese'
-        case 'Misc':
-            return 'mdi-mushroom'
-        default:
-            return ''
+const handleSubmit = async (event) => {
+    const { valid } = await event
+    if (!valid) return
+    if (!ingredients.value.length) {
+        const keys = Object.keys(mapIcon);
+        const type = keys[keys.length * Math.random() << 0]
+        const newIngredientRecord = await insertIngredient(ingredient.value, type)
+        emit('change', newIngredientRecord.id, amount.value)
+    }
+    else {
+        emit('change', ingredient.value.id, amount.value)
     }
 
+
+
 }
+
+const insertIngredient = async (name, type) => {
+    const { status, data } = await client.from("Ingredient").insert({ name, type }).select('id', 'type', 'name').single()
+    if (status === 201) {
+        return data
+    }
+    alert("Error")
+
+}
+const { data: ingredients, refresh, pending } = await useAsyncData(async () => {
+    const { data } = await client.from('Ingredient').select('id, name, type').like('name', `%${filter.value}%`).limit(5).order('name')
+    return data
+
+
+})
+
+
+const mapIcon = { "Baking": "mdi-baguette", "Meat": "mdi-food-steak", "Drinks": "mdi-cup", "Condiments": "mdi-shaker", "Produce": "mdi-fruit-pineapple", "Dairy": "mdi-cheese", "Misc": "mdi-mushroom" }
+
 </script>
