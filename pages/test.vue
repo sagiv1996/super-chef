@@ -20,13 +20,13 @@ const client = useSupabaseClient<Database>();
 let loading = ref<boolean>(false)
 
 const { data: ingredients, refresh, pending } = await useAsyncData(async () => {
-    const { data } = await client.from('Ingredient').select('*')
+    const { data } = await client.from('ingredient').select('*')
     return data as Ingredient[]
 })
 
 const addProduct = async () => {
     loading.value = true
-    await client.from('Ingredient').insert({
+    await client.from('ingredient').insert({
         name: 'name', type: 'type', tags: [
             "A", "B", "c"
         ]

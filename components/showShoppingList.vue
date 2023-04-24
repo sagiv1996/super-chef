@@ -1,10 +1,10 @@
 <template>
     <v-list select-strategy="classic">
-        <v-list-item v-for="shoppingListItem in shoppingList" :title="shoppingListItem.ingredientId.name"
+        <v-list-item v-for="shoppingListItem in shoppingList" :title="shoppingListItem.ingredient_id.name"
             active-class="text-decoration-line-through" :value="shoppingListItem.id" :subtitle="shoppingListItem.amount"
             :active="shoppingListItem.isBought" @change="handleChange(shoppingListItem)">
             <template v-slot:prepend="{ isActive }">
-                <v-icon :icon="getIconByType(shoppingListItem.ingredientId.type)"></v-icon>
+                <v-icon :icon="getIconByType(shoppingListItem.ingredient_id.type)"></v-icon>
             </template>
             <template v-slot:append="{ isActive }">
                 <v-list-item-action end>
@@ -55,7 +55,7 @@ const getIconByType = (type) => {
 
 const handleChange = async (shoppingListItem) => {
     shoppingListItem.isBought = !shoppingListItem.isBought
-    await client.from('ShoppingListItem').update({ isBought: shoppingListItem.isBought }).eq('id', shoppingListItem.id)
+    await client.from('shopping_list_item').update({ isBought: shoppingListItem.isBought }).eq('id', shoppingListItem.id)
     emit('change')
 }
 </script>

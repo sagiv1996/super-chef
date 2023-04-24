@@ -8,16 +8,30 @@
 </template>
 <script setup lang="ts">
 const client = useSupabaseClient<Database>();
+const user = useSupabaseUser()
+
+// definePageMeta({
+//     middleware: 'auth'
+// })
 
 const { data: shoppingList, refresh, pending } = await useAsyncData(async () => {
-    const { data } = await client.from('ShoppingListItem').select(`*,ingredientId("*")`).order("isBought")
+    const { data } = await client.from('shopping_list_item').select(`*,ingredient_id("*")`)
     return data
 })
 
 
 const insertShoppingListItem = async (id: number, amount: number) => {
-    await client.from("ShoppingListItem").insert({ "shoppingListId": 1, ingredientId: id, amount }).select('*').single()
-    await refresh()
+    const userId = user.value?.id
+    if (userId) {
+        try {
+            await client.from("shopping_list_item").insert({ "shopping_list_id": 1, ingredient_id: id, amount }).select('*').single()
+        } catch (e) {
+            console.log({ e })
+        }
+
+        await refresh()
+    }
+
 }
 
 const updateRecord = async () => {
