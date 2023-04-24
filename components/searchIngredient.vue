@@ -3,7 +3,7 @@
         <v-row>
             <v-col cols="12" sm="9">
                 <v-combobox :items="ingredients" item-title="name" v-model:search="filter" variant="outlined"
-                    menu-icon="mdi-playlist-edit" @update:search="refresh" :rules="[rules.required]"
+                    @focus="refresh" menu-icon="mdi-playlist-edit" @update:search="refresh" :rules="[rules.required]"
                     label="Add row to Shopping List" clearable :loading="pending" item-value="id" @change="handleChange"
                     @keyup.enter="handleSubmit" v-model="ingredient">
                     <template v-slot:item="{ props, item }">
@@ -34,7 +34,7 @@ const emit = defineEmits(["change"])
 
 
 const client = useSupabaseClient()
-const filter = ref()
+const filter = ref('wat')
 const ingredient = ref();
 const amount = ref(1);
 
@@ -70,7 +70,7 @@ const handleSubmit = async (event) => {
 }
 
 const insertIngredient = async (name, type) => {
-    const { status, data } = await client.from("Ingredient").insert({ name, type }).select('id', 'type', 'name').single()
+    const { status, data } = await client.from("ingredient").insert({ name, type }).select('id', 'type', 'name').single()
     if (status === 201) {
         return data
     }
@@ -78,7 +78,7 @@ const insertIngredient = async (name, type) => {
 
 }
 const { data: ingredients, refresh, pending } = await useAsyncData(async () => {
-    const { data } = await client.from('Ingredient').select('id, name, type').like('name', `%${filter.value}%`).limit(5).order('name')
+    const { data } = await client.from('ingredient').select('id, name, type').like('name', `%${filter.value}%`).limit(5).order('name')
     return data
 
 
