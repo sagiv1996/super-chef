@@ -1,7 +1,7 @@
 <template>
     <v-container fill-height>
         <v-layout>
-            <v-app-bar title="Application bar">
+            <v-app-bar title="Application bar" >
                 <v-app-bar-nav-icon @click="drawer = !drawer" />
             </v-app-bar>
             <v-navigation-drawer v-model="drawer">

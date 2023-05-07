@@ -20,7 +20,3 @@ const logout = async () =>
     await client.auth.signOut()
 
 </script>
-
-(auth.uid() IN ( SELECT members.user_id
-   FROM members
-  WHERE (members.team_id = teams.id)))
