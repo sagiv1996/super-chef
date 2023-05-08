@@ -1,22 +1,18 @@
 
 <template>
-    <v-combobox :items="ingredients || []" item-title="name" item-value="_id" v-model.lazy="ingredient"
-        v-model:search.lazy="filter" :loading="pending">
+    <v-combobox :items="ingredients || []" item-title="name" item-value="name" v-model.lazy="ingredient"
+        v-model:search.lazy="filter" :loading="pending" :return-object="false" label="Add item"
+        @update:modelValue="handlerChange">
     </v-combobox>
 </template>
 
 
 <script setup lang="ts">
-
-interface Ingredient {
-    _id: string
-    name: string
-}
-
+const emit = defineEmits(['changeItem'])
 const config = useRuntimeConfig();
 const { BASE_URL } = config.public
 
-const ingredient = ref<Ingredient>()
+const ingredient = ref<string>()
 const filter = ref<string>('')
 const limit = 3;
 const { data: ingredients, pending } = await useFetch<Ingredient[]>(`/ingredient`, {
@@ -29,5 +25,8 @@ const { data: ingredients, pending } = await useFetch<Ingredient[]>(`/ingredient
     watch: [filter]
 })
 
+const handlerChange = () => {
+    emit("changeItem", ingredient.value)
+}
 
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <search-ingredient />
+    <add-item-to-shopping-list @addItem="addItem" />
     <shopping-list :item="data" :single="true" />
 </template>
 
@@ -20,4 +20,18 @@ const { data, pending, error, refresh } = await useLazyAsyncData<ShoppingList>(
         }
     )
 )
+
+
+
+const addItem = async (itemObject: any) => {
+    await $fetch(`shopping-list/add-item/${route.params.shoppingListId}`, {
+        baseURL: BASE_URL,
+        method: 'PATCH',
+        body: {
+            name: itemObject.name,
+            amount: itemObject.amount
+        }
+    })
+    await refresh()
+}
 </script>
