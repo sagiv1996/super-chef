@@ -9,7 +9,7 @@
             </v-text-field>
         </v-col>
         <v-col cols="1">
-            <v-btn @click="handleSubmit">submit</v-btn>
+            <v-btn @click="handleSubmit" type="submit">submit</v-btn>
         </v-col>
     </v-row>
 </template>

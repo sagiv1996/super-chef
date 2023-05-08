@@ -11,7 +11,7 @@ const { BASE_URL } = config.public
 const route = useRoute()
 
 
-const { data, pending, error, refresh } = await useLazyAsyncData<ShoppingList>(
+const { data, refresh } = await useLazyAsyncData<ShoppingList>(
     'getShoppingList',
     () => $fetch(
         `shopping-list/get-by-id/${route.params.shoppingListId}`,
@@ -24,7 +24,7 @@ const { data, pending, error, refresh } = await useLazyAsyncData<ShoppingList>(
 
 
 const addItem = async (itemObject: any) => {
-    await $fetch(`shopping-list/add-item/${route.params.shoppingListId}`, {
+    await $fetch<ShoppingListItem>(`shopping-list/add-item/${route.params.shoppingListId}`, {
         baseURL: BASE_URL,
         method: 'PATCH',
         body: {
