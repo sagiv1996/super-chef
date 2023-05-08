@@ -33,7 +33,7 @@ interface Props {
     single: { type: boolean, default: false }
 }
 
-
+const emit = defineEmits(['deleteValue'])
 const { item, single } = defineProps<Props>()
 const config = useRuntimeConfig();
 const { BASE_URL } = config.public
@@ -60,12 +60,9 @@ const deleteItem = async (val: ShoppingListItem, indexValue: number) => {
         baseURL: BASE_URL,
         method: "PATCH",
     })
-
-    item.ingredients.splice(indexValue, 1)
+    emit('deleteValue', indexValue)
     isLoading.value = false
-    if (item.ingredients.length === 0) {
-        navigateTo('/shopping-list')
-    }
+
 
 }
 

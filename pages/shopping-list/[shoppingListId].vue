@@ -1,6 +1,6 @@
 <template>
     <add-item-to-shopping-list @addItem="addItem" />
-    <shopping-list :item="data" :single="true" />
+    <shopping-list :item="data" :single="true" @deleteValue="deleteValue" />
 </template>
 
 <script setup lang="ts">
@@ -20,6 +20,14 @@ const { data, refresh } = await useLazyAsyncData<ShoppingList>(
         }
     )
 )
+
+
+const deleteValue = (indexValue: number) => {
+    data.value?.ingredients.splice(indexValue, 1);
+    if (data.value?.ingredients.length === 0) {
+        navigateTo('/shopping-list')
+    }
+}
 
 
 
