@@ -40,6 +40,7 @@ const { BASE_URL } = config.public
 
 
 const isLoading = ref<boolean>(false)
+
 const handleChange = async (val: ShoppingListItem) => {
     isLoading.value = true
     await $fetch(`/shopping-list/${val._id}`, {
@@ -62,6 +63,9 @@ const deleteItem = async (val: ShoppingListItem, indexValue: number) => {
 
     item.ingredients.splice(indexValue, 1)
     isLoading.value = false
+    if (item.ingredients.length === 0) {
+        navigateTo('/shopping-list')
+    }
 
 }
 
