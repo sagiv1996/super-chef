@@ -1,6 +1,6 @@
 <template>
     <add-item-to-shopping-list @addItem="addItem" />
-    <shopping-list :item="data" :single="true" @itemIsChange="refresh" />
+    <shopping-list :item="data" :single="true" />
 </template>
 
 <script setup lang="ts">

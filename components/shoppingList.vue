@@ -33,7 +33,6 @@ interface Props {
     single: { type: boolean, default: false }
 }
 
-const emit = defineEmits(['itemIsChange'])
 
 const { item, single } = defineProps<Props>()
 const config = useRuntimeConfig();
@@ -50,7 +49,6 @@ const handleChange = async (val: ShoppingListItem) => {
             isBought: !val.isBought
         }
     })
-    emit('itemIsChange')
     isLoading.value = false
 
 }
@@ -61,7 +59,8 @@ const deleteItem = async (val: ShoppingListItem, indexValue: number) => {
         baseURL: BASE_URL,
         method: "PATCH",
     })
-    emit('itemIsChange')
+
+    item.ingredients.splice(indexValue, 1)
     isLoading.value = false
 
 }
