@@ -2,19 +2,29 @@
     <v-card :title="item.name" :subtitle="item.ownerId" :loading="isLoading">
         <v-card-text>
             <v-list :max-height="single ? 'none' : '100'" style="overflow:hidden;">
-                <v-list-item v-for="(ingredient, index) in item.ingredients" :title="ingredient?.ingredient?.name"
-                    :active="ingredient.isBought" :subtitle="ingredient.amount" @change="handleChange(ingredient)">
-                    <template v-slot:prepend>
-                        <v-icon color="red">mdi-food-apple</v-icon>
+
+                <v-hover v-for=" (ingredient, index) in item.ingredients">
+                    <template v-slot:default="{ isHovering, props }">
+                        <v-list-item v-bind="props" :title="ingredient?.ingredient?.name" :active="ingredient.isBought"
+                            :subtitle="ingredient.amount" @change="handleChange(ingredient)">
+                            <template v-slot:append>
+                                <v-btn v-show="isHovering" @click="deleteItem(ingredient, index)"
+                                    icon="mdi-trash-can-outline" size="small" variant="text" title="Delete" />
+                                <v-icon color="red">mdi-food-apple</v-icon>
+                            </template>
+                            <template v-slot:prepend="{ isActive }">
+                                <v-list-item-action end>
+                                    <v-checkbox-btn :model-value="isActive"></v-checkbox-btn>
+
+                                </v-list-item-action>
+                            </template>
+                        </v-list-item>
                     </template>
-                    <template v-slot:append="{ isActive }">
-                        <v-list-item-action end>
-                            <v-checkbox-btn :model-value="isActive"></v-checkbox-btn>
-                            <v-btn @click="deleteItem(ingredient, index)" icon="mdi-trash-can-outline" size="small"
-                                variant="text" title="Delete" />
-                        </v-list-item-action>
-                    </template>
-                </v-list-item>
+                </v-hover>
+
+
+
+
             </v-list>
             <v-divider></v-divider>
         </v-card-text>
