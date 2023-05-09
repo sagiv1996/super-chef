@@ -1,6 +1,7 @@
 <template>
     <v-btn position="fixed" location="bottom right" @click="dialog = true" icon>
         <v-icon>mdi-plus</v-icon>
+        <v-tooltip activator="parent">Click me to create a new shopping list</v-tooltip>
     </v-btn>
     <v-dialog v-model="dialog" width="350">
         <v-card>
