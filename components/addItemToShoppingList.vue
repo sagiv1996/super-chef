@@ -1,5 +1,5 @@
 <template>
-    <v-form ref="form">
+    <v-form ref="form" @submit.prevent="handleSubmit">
         <v-row>
             <v-col cols="9">
                 <search-ingredient @changeItem="(val: string) => ingredient = val" />
