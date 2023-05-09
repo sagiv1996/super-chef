@@ -12,7 +12,7 @@ const route = useRoute()
 
 
 const { data, refresh } = await useLazyAsyncData<ShoppingList>(
-    'getShoppingList',
+    'getShoppingListById',
     () => $fetch(
         `shopping-list/get-by-id/${route.params.shoppingListId}`,
         {

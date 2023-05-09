@@ -1,8 +1,7 @@
 <template>
     <v-card :title="item.name" :subtitle="item.ownerId" :loading="isLoading">
         <v-card-text>
-            <v-list :max-height="single ? 'none' : '100'" style="overflow:hidden;">
-
+            <v-list>
                 <v-hover v-for=" (ingredient, index) in item.ingredients">
                     <template v-slot:default="{ isHovering, props }">
                         <v-list-item v-bind="props" :title="ingredient?.ingredient?.name" :active="ingredient.isBought"
@@ -29,20 +28,17 @@
             <v-divider></v-divider>
         </v-card-text>
         <v-card-actions>
-            <v-btn v-if="!single" :to="`/shopping-list/${item._id}`">open!</v-btn>
-            <v-btn v-else to="/shopping-list">Back!</v-btn>
-        </v-card-actions>
+            <v-btn to="/shopping-list">Back!</v-btn> </v-card-actions>
     </v-card>
 </template>
 
 <script setup lang="ts">
 interface Props {
     item: ShoppingList
-    single: { type: boolean, default: false }
 }
 
 const emit = defineEmits(['deleteValue'])
-const { item, single } = defineProps<Props>()
+const { item } = defineProps<Props>()
 const config = useRuntimeConfig();
 const { BASE_URL } = config.public
 

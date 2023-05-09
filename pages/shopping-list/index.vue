@@ -11,8 +11,10 @@
         </v-card>
     </v-dialog>
     <v-row>
-        <v-col v-for="(shoppingList, index) in shoppingLists">
-            <shopping-list :item="shoppingList" @deleteValue="deleteShoppingList(index)" />
+        <v-col v-for="(shoppingList) in shoppingLists">
+            <shopping-list-progress-linear :shoppingList="shoppingList" />
+            <!-- <shopping-list :item="shoppingList" /> -->
+
         </v-col>
 
     </v-row>
@@ -26,7 +28,7 @@ const { BASE_URL } = config.public
 const dialog = ref<boolean>(false);
 
 const { data: shoppingLists, pending, error, refresh } = await useLazyAsyncData<ShoppingList[]>(
-    'getShoppingList',
+    'getShoppingListsByOwnerId',
     () => $fetch(
         'shopping-list/Sagiv',
         {
@@ -35,7 +37,4 @@ const { data: shoppingLists, pending, error, refresh } = await useLazyAsyncData<
     )
 )
 
-const deleteShoppingList = (shoppingListIndex: number) => {
-    shoppingLists.value?.splice(shoppingListIndex, 1)
-}
 </script>
