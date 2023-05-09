@@ -1,6 +1,6 @@
 <template>
     <add-item-to-shopping-list @addItem="addItem" />
-    <shopping-list :item="data" :single="true" @deleteValue="deleteValue" />
+    <shopping-list v-if="data" :item="data" :single="true" @deleteValue="deleteValue" />
 </template>
 
 <script setup lang="ts">
@@ -18,7 +18,13 @@ const { data, refresh } = await useLazyAsyncData<ShoppingList>(
         {
             baseURL: BASE_URL
         }
-    )
+    ), {
+    transform: (response): ShoppingList => {
+        const sortIngredients: ShoppingListItem[] = response.ingredients.sort((a, b) => Number(a.isBought) - Number(b.isBought));
+        response.ingredients = sortIngredients;
+        return response
+    }
+}
 )
 
 
