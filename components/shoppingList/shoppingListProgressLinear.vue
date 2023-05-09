@@ -11,10 +11,15 @@
             </v-row>
         </v-card-text>
         <v-card-actions>
-            <v-btn :to="`/shopping-list/${shoppingList._id}`">open</v-btn>
+            <v-btn :to="`/shopping-list/${shoppingList._id}`">
+                <v-icon>mdi-open-in-new</v-icon>
+                <v-tooltip activator="parent" location="top">Open</v-tooltip>
+            </v-btn>
             <v-spacer />
-            <v-btn @click="deleteList(shoppingList)"
-                                        icon="mdi-trash-can-outline" size="small" variant="text" title="Delete" />
+            <v-btn @click="deleteList(shoppingList)" size="small" variant="text">
+                <v-icon>mdi-trash-can-outline</v-icon>
+                <v-tooltip activator="parent" location="top">Delete</v-tooltip>
+            </v-btn>
         </v-card-actions>
     </v-card>
 </template>
