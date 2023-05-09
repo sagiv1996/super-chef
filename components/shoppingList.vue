@@ -4,16 +4,14 @@
             <v-list :max-height="single ? 'none' : '100'" style="overflow:hidden;">
                 <v-list-item v-for="(ingredient, index) in item.ingredients" :title="ingredient?.ingredient?.name"
                     :active="ingredient.isBought" :subtitle="ingredient.amount" @change="handleChange(ingredient)">
-                    <template v-slot:prepend="{ isActive }">
-                        <v-list-item-action start>
-                            <v-checkbox-btn :model-value="isActive"></v-checkbox-btn>
-                        </v-list-item-action>
+                    <template v-slot:prepend>
+                        <v-icon color="red">mdi-food-apple</v-icon>
                     </template>
-                    <template v-slot:append>
-                        <v-list-item-action end><v-btn @click="deleteItem(ingredient, index)">
-                                <v-icon>mdi-trash-can-outline</v-icon>
-                            </v-btn>
-
+                    <template v-slot:append="{ isActive }">
+                        <v-list-item-action end>
+                            <v-checkbox-btn :model-value="isActive"></v-checkbox-btn>
+                            <v-btn @click="deleteItem(ingredient, index)" icon="mdi-trash-can-outline" size="small"
+                                variant="text" title="Delete" />
                         </v-list-item-action>
                     </template>
                 </v-list-item>
