@@ -39,6 +39,7 @@ const handleSubmit = async () => {
     const { valid } = await form.value.validate();
     if (valid) {
         emit('addItem', { amount: amount.value, name: ingredient.value })
+        await form.value.reset();
     }
 }
 
