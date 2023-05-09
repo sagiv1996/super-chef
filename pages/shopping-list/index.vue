@@ -12,7 +12,7 @@
     </v-dialog>
     <v-row>
         <v-col v-for="(shoppingList) in shoppingLists">
-            <shopping-list-progress-linear :shoppingList="shoppingList" />
+            <shopping-list-progress-linear :shoppingList="shoppingList" @deleteList="refresh" />
         </v-col>
 
     </v-row>
