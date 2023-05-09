@@ -10,8 +10,7 @@
                                     <v-btn v-show="isHovering" @click="deleteItem(ingredient, index)"
                                         icon="mdi-trash-can-outline" size="small" variant="text" title="Delete" />
                                 </v-scroll-x-reverse-transition>
-
-                                <v-icon color="red">mdi-food-apple</v-icon>
+                                <ingredient-icon :category="ingredient.ingredient?.category" />
                             </template>
                             <template v-slot:prepend>
                                 <v-list-item-action end>
