@@ -2,7 +2,7 @@
 <template>
     <v-combobox :items="ingredients || []" item-title="name" item-value="name" v-model.lazy="ingredient"
         v-model:search.lazy="filter" :loading="pending" :return-object="false" label="Add item"
-        @update:modelValue="handlerChange">
+        @update:modelValue="handlerChange" :rules="[required]">
     </v-combobox>
 </template>
 
@@ -15,6 +15,7 @@ const { BASE_URL } = config.public
 const ingredient = ref<string>()
 const filter = ref<string>('')
 const limit = 3;
+const required = (value: string) => !!value || 'Required.'
 const { data: ingredients, pending } = await useFetch<Ingredient[]>(`/ingredient`, {
     baseURL: BASE_URL,
     query: {
