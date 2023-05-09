@@ -6,8 +6,11 @@
                     <template v-slot:default="{ isHovering, props }">
                         <v-list-item v-bind="props" :title="ingredient?.ingredient?.name" :subtitle="ingredient.amount">
                             <template v-slot:append>
-                                <v-btn v-show="isHovering" @click="deleteItem(ingredient, index)"
-                                    icon="mdi-trash-can-outline" size="small" variant="text" title="Delete" />
+                                <v-scroll-x-reverse-transition>
+                                    <v-btn v-show="isHovering" @click="deleteItem(ingredient, index)"
+                                        icon="mdi-trash-can-outline" size="small" variant="text" title="Delete" />
+                                </v-scroll-x-reverse-transition>
+
                                 <v-icon color="red">mdi-food-apple</v-icon>
                             </template>
                             <template v-slot:prepend>
