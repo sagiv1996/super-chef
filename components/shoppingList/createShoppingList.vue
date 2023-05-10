@@ -1,7 +1,7 @@
 <template>
     <v-form ref="form" @submit.prevent="handleSubmit">
-        <v-text-field label="List name" :rules=[required] v-model="listName"></v-text-field>
-        <v-btn type="submit">Create</v-btn>
+        <v-text-field label="List name" :rules=[required] v-model="listName" :readonly="pending"></v-text-field>
+        <v-btn type="submit" :loading="pending">Create</v-btn>
     </v-form>
 </template>
 
@@ -14,18 +14,24 @@ const listName = ref<string>()
 const required = (value: string) => !!value || 'Required.'
 
 
-const handleSubmit = async () => {
-    const { valid } = await form.value.validate();
-    if (valid) {
+const { data: shoppingLists, pending, refresh } = await useAsyncData<void>(
+    async () => {
+        const { valid } = await form.value.validate();
+        if (!valid) return
         const response = await $fetch<ShoppingList>('/shopping-list', {
             method: 'POST',
             baseURL: BASE_URL,
             body: {
                 name: listName.value,
                 ownerId: 'Sagiv'
-            }
+            },
         })
-        navigateTo(`/shopping-list/${response._id}`)
-    }
+        navigateTo(`shopping-list/${response._id}`)
+    }, {
+    immediate: true
+}
+)
+const handleSubmit = async () => {
+    await refresh()
 }
 </script>
