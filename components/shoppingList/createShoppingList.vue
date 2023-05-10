@@ -14,7 +14,7 @@ const listName = ref<string>()
 const required = (value: string) => !!value || 'Required.'
 
 
-const { data: shoppingLists, pending, refresh } = await useAsyncData<void>(
+const { pending, refresh } = await useAsyncData<void>(
     async () => {
         const { valid } = await form.value.validate();
         if (!valid) return

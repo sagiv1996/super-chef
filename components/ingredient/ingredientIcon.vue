@@ -1,5 +1,5 @@
 <template>
-    <v-icon :color="getColor" :icon="getIcon"></v-icon>
+    <v-icon :color="getColor" :icon="getIcon" :title="category"></v-icon>
 </template>
 
 <script setup lang="ts">
