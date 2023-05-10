@@ -23,8 +23,6 @@
 const config = useRuntimeConfig();
 const { BASE_URL } = config.public
 
-const dialog = ref<boolean>(false);
-
 const { data: shoppingLists, pending, error, refresh } = await useAsyncData<ShoppingList[]>(
     'getShoppingListsByOwnerId',
     () => $fetch(
@@ -35,4 +33,5 @@ const { data: shoppingLists, pending, error, refresh } = await useAsyncData<Shop
     )
 )
 
+const dialog = ref<boolean>(!shoppingLists.value?.length)
 </script>
