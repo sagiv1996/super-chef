@@ -5,8 +5,9 @@
                 <v-app-bar-nav-icon @click="drawer = !drawer" />
             </v-app-bar>
             <v-navigation-drawer v-model="drawer">
-                <v-list>
-                    <v-list-item title="Navigation drawer"></v-list-item>
+                <v-list nav>
+                    <v-list-item v-for="route in routes" :title="route.title" :to="route.path"
+                        :prepend-icon="route.icon"></v-list-item>
                 </v-list>
 
                 <template v-slot:append>
@@ -29,7 +30,10 @@ import { useTheme } from 'vuetify'
 const darkMode = ref<boolean>(true);
 const drawer = ref<boolean>();
 const theme = useTheme()
-
-
 const toggleTheme = () => theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
+
+const routes = [
+    { path: '/', icon: "mdi-home", title: "Home page" },
+    { path: 'shopping-list', icon: 'mdi-list-box', title: 'My shopping list' }
+]
 </script>
