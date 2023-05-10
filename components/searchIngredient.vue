@@ -2,7 +2,8 @@
 <template>
     <v-combobox :items="ingredients || []" item-title="name" item-value="name" v-model.lazy="ingredient"
         v-model:search.lazy="filter" :loading="pending" :return-object="false" label="Add item"
-        @update:modelValue="handlerChange" :rules="[required]" clearable>
+        @update:modelValue="handlerChange" :rules="[required]" clearable prepend-inner-icon="mdi-magnify"
+        placeholder="For example: Tuna">
     </v-combobox>
 </template>
 
