@@ -34,6 +34,7 @@ const toggleTheme = () => theme.global.name.value = theme.global.current.value.d
 
 const routes = [
     { path: '/', icon: "mdi-home", title: "Home page" },
-    { path: 'shopping-list', icon: 'mdi-list-box', title: 'My shopping list' }
+    { path: '/shopping-list', icon: 'mdi-list-box', title: 'My shopping list' }
+
 ]
 </script>
