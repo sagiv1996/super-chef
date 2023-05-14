@@ -1,43 +1,42 @@
 <template>
-    <v-card :title="recipe.name" :subtitle="recipe.userName || 'Not know'" min-width="400" hover elevation="10">
-        <v-img :src="recipe.imageURL"></v-img>
+    <v-card :title="recipe.name" :subtitle="recipe.ownerId" :text="recipe.description">
+        <v-img :src="recipe.imageURL" height="250" cover />
         <v-chip-group class="ma-5">
-            <v-chip label v-for="tag in recipe.tags" :ripple="false" :text="tag" />
+            <v-chip label v-for="tag in recipe.tags" :text="tag" />
         </v-chip-group>
-        <v-card-text>
-            <v-timeline>
-                <v-timeline-item size="small" v-for="(step, index) in recipe.steps"
-                    :dot-color="getColor(index, recipe.steps.length - 1)">
-                    {{ step }}
-                </v-timeline-item>
-            </v-timeline>
-
-        </v-card-text>
-
-
         <v-card-actions>
             <v-btn>Add for shopping list</v-btn>
             <v-spacer></v-spacer>
-
-            <v-btn :icon="show ? 'mdi-chevron-up' : 'mdi-chevron-down'" @click="show = !show"></v-btn>
+            <v-btn-toggle v-model="show" group multiple>
+                <v-btn value="steps">
+                    steps
+                </v-btn>
+                <v-btn value="ingredients">
+                    ingredients
+                </v-btn>
+            </v-btn-toggle>
         </v-card-actions>
-
         <v-expand-transition>
-            <div v-show="show">
-                <v-divider></v-divider>
-                <v-list>
-                    <!-- <v-list-item v-for="ingredient in recipe.ingredients">
-                        <template v-slot:prepend>
-                            <v-icon :icon="getIcon(ingredient.type)"></v-icon>
-                        </template>
-                        <v-list-item-title>{{ ingredient.name }}</v-list-item-title>
-                        <v-list-item-subtitle>{{ ingredient.quantity }}</v-list-item-subtitle> -->
-                    <!-- </v-list-item> -->
-                </v-list>
-            </div>
-        </v-expand-transition>
+            <div v-show="show.length">
+                <v-divider />
+                <v-chip-group v-show="show.includes('ingredients')">
 
-        <v-divider />
+                    <v-chip v-for="ingredient in recipe.ingredients" :text="ingredient.ingredient.name">
+                        <template v-slot:prepend>
+                            <ingredient-icon :category="ingredient.ingredient.category"
+                                :text="ingredient.ingredient.name" />
+                        </template>
+                    </v-chip>
+                </v-chip-group>
+                <v-timeline v-show="show.includes('steps')">
+                    <v-timeline-item size="small" v-for="(step, index) in recipe.steps"
+                        :dot-color="getColor(index, recipe.steps.length - 1)">
+                        {{ step }}
+                    </v-timeline-item>
+                </v-timeline>
+            </div>
+
+        </v-expand-transition>
 
     </v-card>
 </template>
@@ -47,7 +46,7 @@ interface Props {
     recipe: Recipe
 }
 
-const show = ref<boolean>(false)
+const show = ref<string[]>([])
 const { recipe } = defineProps<Props>()
 const getColor = (index: number, numOfSteps: number): string => {
     const colors = ['green-lighten-4',
@@ -67,25 +66,4 @@ const getColor = (index: number, numOfSteps: number): string => {
 }
 
 
-const getIcon = (des: string) => {
-    switch (des) {
-        case 'Baking':
-            return 'mdi-baguette'
-        case 'Meat':
-            return 'mdi-food-steak'
-        case 'Drinks':
-            return 'mdi-cup'
-        case 'Condiments':
-            return 'mdi-shaker'
-        case 'Produce':
-            return 'mdi-fruit-pineapple'
-        case 'Dairy':
-            return 'mdi-cheese'
-        case 'Misc':
-            return 'mdi-mushroom'
-        default:
-            return ''
-    }
-
-}
 </script>
