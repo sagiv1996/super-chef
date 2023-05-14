@@ -1,4 +1,3 @@
-
 <template>
     <v-combobox :items="ingredients || []" item-title="name" item-value="name" v-model.lazy="ingredient"
         v-model:search.lazy="filter" :loading="pending" :return-object="false" label="Add item"
