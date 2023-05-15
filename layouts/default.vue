@@ -43,6 +43,7 @@ const toggleTheme = () => theme.global.name.value = theme.global.current.value.d
 
 const routes = [
     { path: '/', icon: "mdi-home", title: "Home page" },
+    { path: '/recipe', title: 'Recipe' }
 ]
 
 useAsyncData(async () => {
