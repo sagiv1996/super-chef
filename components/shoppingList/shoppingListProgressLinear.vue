@@ -26,6 +26,7 @@
 <script setup lang="ts">
 
 const config = useRuntimeConfig();
+const shoppingListStore = useShoppingList()
 const { BASE_URL } = config.public
 interface Props {
     shoppingList: ShoppingListInterface
@@ -44,6 +45,7 @@ const deleteList = async (val: ShoppingListInterface) => {
         baseURL: BASE_URL,
         method: "DELETE",
     })
+    shoppingListStore.removeShoppingList(val)
     emit('deleteList')
 }
 </script>

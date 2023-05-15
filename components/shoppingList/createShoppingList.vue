@@ -12,7 +12,7 @@ const { BASE_URL } = config.public
 const form = ref()
 const listName = ref<string>()
 const required = (value: string) => !!value || 'Required.'
-
+const shoppingList = useShoppingList()
 
 const { pending, refresh } = await useAsyncData<void>(
     async () => {
@@ -26,6 +26,7 @@ const { pending, refresh } = await useAsyncData<void>(
                 ownerId: 'Sagiv'
             },
         })
+        shoppingList.addShoppingList(response)
         navigateTo(`shopping-list/${response._id}`)
     }, {
     immediate: true

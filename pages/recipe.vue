@@ -15,10 +15,7 @@ const { data: recipes, pending, error, refresh } = await useAsyncData<RecipeInte
     () => $fetch(
         'recipe',
         {
-            baseURL: BASE_URL,
-            body: {
-
-            }
+            baseURL: BASE_URL
         }
     )
 )

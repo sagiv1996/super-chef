@@ -13,7 +13,10 @@ export const useShoppingList = defineStore("shoppingLists", {
     },
 
     removeShoppingList(shoppingList: ShoppingListInterface) {
-      this.items.push(shoppingList);
+      const shoppingListIndex = this.items.findIndex(
+        (item) => item._id === shoppingList._id
+      );
+      this.items.splice(shoppingListIndex, 1);
     },
 
     async loadShoppingLists() {
