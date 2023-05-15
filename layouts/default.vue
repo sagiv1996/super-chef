@@ -19,6 +19,7 @@
             </v-navigation-drawer>
 
             <v-main style="min-height: 300px;">
+                {{ shoppingLists.items }}
 
                 <slot> </slot>
             </v-main>
@@ -27,9 +28,11 @@
 </template>
 <script setup lang="ts">
 import { useTheme } from 'vuetify'
+const shoppingLists = useShoppingList()
 const darkMode = ref<boolean>(true);
 const drawer = ref<boolean>();
 const theme = useTheme()
+
 const toggleTheme = () => theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
 
 const routes = [
@@ -37,4 +40,8 @@ const routes = [
     { path: '/shopping-list', icon: 'mdi-list-box', title: 'My shopping list' }
 
 ]
+
+const { data } = useAsyncData(async () => {
+    await shoppingLists.loadShoppingLists()
+})
 </script>
