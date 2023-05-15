@@ -1,4 +1,4 @@
-declare interface Recipe {
+declare interface RecipeInterface {
   _id: string;
   name: string;
   description: string;
@@ -6,5 +6,5 @@ declare interface Recipe {
   imageURL: string;
   ownerId: string;
   tags: string[];
-  ingredients: [{ ingredient: Ingredient; amount: number }];
+  ingredients: [{ ingredient: IngredientInterface; amount: number }];
 }
