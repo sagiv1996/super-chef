@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 interface Props {
-    item: ShoppingList
+    item: ShoppingListInterface
 }
 
 const emit = defineEmits(['deleteValue'])
@@ -47,7 +47,7 @@ const { BASE_URL } = config.public
 
 const isLoading = ref<boolean>(false)
 
-const handleChange = async (val: ShoppingListItem) => {
+const handleChange = async (val: ShoppingListItemInterface) => {
     isLoading.value = true
     await $fetch(`/shopping-list/${val._id}`, {
         baseURL: BASE_URL,
@@ -60,7 +60,7 @@ const handleChange = async (val: ShoppingListItem) => {
 
 }
 
-const deleteItem = async (val: ShoppingListItem, indexValue: number) => {
+const deleteItem = async (val: ShoppingListItemInterface, indexValue: number) => {
     isLoading.value = true
     await $fetch(`/shopping-list/deleteItem/${val._id}`, {
         baseURL: BASE_URL,

@@ -23,7 +23,7 @@
 const config = useRuntimeConfig();
 const { BASE_URL } = config.public
 
-const { data: shoppingLists, pending, error, refresh } = await useAsyncData<ShoppingList[]>(
+const { data: shoppingLists, pending, error, refresh } = await useAsyncData<ShoppingListInterface[]>(
     'getShoppingListsByOwnerId',
     () => $fetch(
         'shopping-list/Sagiv',

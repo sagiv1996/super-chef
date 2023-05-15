@@ -10,12 +10,15 @@
 
 const config = useRuntimeConfig();
 const { BASE_URL } = config.public
-
-const { data: recipes, pending, error, refresh } = await useAsyncData<Recipe[]>(
+const route = useRoute()
+const { data: recipes, pending, error, refresh } = await useAsyncData<RecipeInterface[]>(
     () => $fetch(
         'recipe',
         {
-            baseURL: BASE_URL
+            baseURL: BASE_URL,
+            body: {
+
+            }
         }
     )
 )

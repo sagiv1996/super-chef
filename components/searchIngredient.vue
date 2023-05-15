@@ -16,7 +16,7 @@ const ingredient = ref<string>()
 const filter = ref<string>('')
 const limit = 3;
 const required = (value: string) => !!value || 'Required.'
-const { data: ingredients, pending } = await useFetch<Ingredient[]>(`/ingredient`, {
+const { data: ingredients, pending } = await useFetch<IngredientInterface[]>(`/ingredient`, {
     baseURL: BASE_URL,
     query: {
         limit,

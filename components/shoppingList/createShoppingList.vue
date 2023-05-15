@@ -18,7 +18,7 @@ const { pending, refresh } = await useAsyncData<void>(
     async () => {
         const { valid } = await form.value.validate();
         if (!valid) return
-        const response = await $fetch<ShoppingList>('/shopping-list', {
+        const response = await $fetch<ShoppingListInterface>('/shopping-list', {
             method: 'POST',
             baseURL: BASE_URL,
             body: {

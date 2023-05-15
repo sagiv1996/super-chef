@@ -20,8 +20,8 @@
             <div v-show="show.length">
                 <v-divider />
                 <v-chip-group v-show="show.includes('ingredients')">
-
-                    <v-chip v-for="ingredient in recipe.ingredients" :text="ingredient.ingredient.name">
+                    <v-chip v-for="ingredient in recipe.ingredients" :text="ingredient.ingredient.name"
+                        :to="`?category=${ingredient.ingredient.category}`">
                         <template v-slot:prepend>
                             <ingredient-icon :category="ingredient.ingredient.category"
                                 :text="ingredient.ingredient.name" />
@@ -43,7 +43,7 @@
 <script setup lang="ts">
 
 interface Props {
-    recipe: Recipe
+    recipe: RecipeInterface
 }
 
 const show = ref<string[]>([])

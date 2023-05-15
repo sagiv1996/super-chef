@@ -28,7 +28,7 @@
 const config = useRuntimeConfig();
 const { BASE_URL } = config.public
 interface Props {
-    shoppingList: ShoppingList
+    shoppingList: ShoppingListInterface
 }
 const emit = defineEmits(['deleteList'])
 
@@ -39,7 +39,7 @@ const lengthIsBought = computed(() => {
     return shoppingList.ingredients.filter(shoppingListItem => shoppingListItem.isBought).length
 });
 
-const deleteList = async (val: ShoppingList) => {
+const deleteList = async (val: ShoppingListInterface) => {
     await $fetch(`/shopping-list/${val._id}`, {
         baseURL: BASE_URL,
         method: "DELETE",

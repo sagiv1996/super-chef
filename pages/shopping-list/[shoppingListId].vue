@@ -11,7 +11,7 @@ const { BASE_URL } = config.public
 const route = useRoute()
 
 
-const { data, refresh } = await useLazyAsyncData<ShoppingList>(
+const { data, refresh } = await useLazyAsyncData<ShoppingListInterface>(
     'getShoppingListById',
     () => $fetch(
         `shopping-list/get-by-id/${route.params.shoppingListId}`,
@@ -19,8 +19,8 @@ const { data, refresh } = await useLazyAsyncData<ShoppingList>(
             baseURL: BASE_URL
         }
     ), {
-    transform: (response): ShoppingList => {
-        const sortIngredients: ShoppingListItem[] = response.ingredients.sort((a, b) => Number(a.isBought) - Number(b.isBought));
+    transform: (response): ShoppingListInterface => {
+        const sortIngredients: ShoppingListItemInterface[] = response.ingredients.sort((a, b) => Number(a.isBought) - Number(b.isBought));
         response.ingredients = sortIngredients;
         return response
     }
@@ -38,7 +38,7 @@ const deleteValue = (indexValue: number) => {
 
 
 const addItem = async (itemObject: any) => {
-    await $fetch<ShoppingListItem>(`shopping-list/add-item/${route.params.shoppingListId}`, {
+    await $fetch<ShoppingListItemInterface>(`shopping-list/add-item/${route.params.shoppingListId}`, {
         baseURL: BASE_URL,
         method: 'PATCH',
         body: {
