@@ -3,6 +3,10 @@ export const useShoppingList = defineStore("shoppingLists", {
     items: [] as ShoppingListInterface[],
   }),
 
+  getters: {
+    nav: (state) =>
+      state.items.map((item) => ({ title: item.name, _id: item._id })),
+  },
   actions: {
     addShoppingList(shoppingList: ShoppingListInterface) {
       this.items.push(shoppingList);

@@ -8,6 +8,14 @@
                 <v-list nav>
                     <v-list-item v-for="route in routes" :title="route.title" :to="route.path"
                         :prepend-icon="route.icon"></v-list-item>
+                    <v-list-group value="shoppingLists">
+                        <template v-slot:activator="{ props }">
+                            <v-list-item v-bind="props" prepend-icon="mdi-list-box" title="Shopping List" />
+                        </template>
+                        <v-list-item v-for="shoppingList in shoppingLists.nav" :title="shoppingList.title"
+                            :to="`/shopping-list/${shoppingList._id}`" />
+                        <v-list-item to="/shopping-list?new=true" title="New one" />
+                    </v-list-group>
                 </v-list>
 
                 <template v-slot:append>
@@ -19,8 +27,6 @@
             </v-navigation-drawer>
 
             <v-main style="min-height: 300px;">
-                {{ shoppingLists.items }}
-
                 <slot> </slot>
             </v-main>
         </v-layout>
@@ -37,11 +43,10 @@ const toggleTheme = () => theme.global.name.value = theme.global.current.value.d
 
 const routes = [
     { path: '/', icon: "mdi-home", title: "Home page" },
-    { path: '/shopping-list', icon: 'mdi-list-box', title: 'My shopping list' }
-
 ]
 
-const { data } = useAsyncData(async () => {
+useAsyncData(async () => {
     await shoppingLists.loadShoppingLists()
 })
+
 </script>
