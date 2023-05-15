@@ -5,13 +5,19 @@ export default defineNuxtConfig({
       BASE_URL: process.env.BASE_URL,
     },
   },
-  modules: ["@invictus.codes/nuxt-vuetify", "@nuxt/content"],
+  modules: ["@invictus.codes/nuxt-vuetify", "@pinia/nuxt"],
   vuetify: {
     vuetifyOptions: {
       theme: {
         defaultTheme: "dark",
       },
     },
+  },
+  imports: {
+    dirs: ["./stores"],
+  },
+  pinia: {
+    autoImports: ["defineStore", "acceptHMRUpdate"],
   },
   components: [{ path: "~/components", pathPrefix: false }],
 });
