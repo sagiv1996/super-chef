@@ -21,6 +21,7 @@
 <script setup lang="ts">
 
 const config = useRuntimeConfig();
+const route = useRoute()
 const { BASE_URL } = config.public
 
 const { data: shoppingLists, pending, error, refresh } = await useAsyncData<ShoppingListInterface[]>(
@@ -33,5 +34,6 @@ const { data: shoppingLists, pending, error, refresh } = await useAsyncData<Shop
     )
 )
 
-const dialog = ref<boolean>(!shoppingLists.value?.length)
+
+const dialog = ref<boolean>(!shoppingLists.value?.length || route.query.new === 'true')
 </script>
